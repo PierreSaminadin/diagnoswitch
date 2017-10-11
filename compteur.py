@@ -32,7 +32,7 @@ def fCompteur(pIp, pCom, pOid):
         return lBrut.split()[2]
 
 def fListeCompteurs(pIp, pCom, pOid):
-    """renvoie une liste de valeurs - prend une liste d'OID en argument"""
+    """renvoie un dictionnaire de valeurs - prend une liste d'OID en argument"""
     lResult = {}
     for lElem in pOid:
         lVal = fCompteur(pIp, pCom, lElem)

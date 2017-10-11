@@ -12,20 +12,20 @@ class oErrEquipement:
 class oErrPort:
     """un port, ses OID et ses collectes"""
     def __init__(self, pPortNum):
-        self.aPortNum = pPortnum
-        self.aListeOIDs = ["1.3.6.1.2.1.10.7.2.1.2.{}".format(aPortNum),
-                           "1.3.6.1.2.1.10.7.2.1.3.{}".format(aPortNum),
-                           "1.3.6.1.2.1.10.7.2.1.4.{}".format(aPortNum),
-                           "1.3.6.1.2.1.10.7.2.1.5.{}".format(aPortNum),
-                           "1.3.6.1.2.1.10.7.2.1.6.{}".format(aPortNum),
-                           "1.3.6.1.2.1.10.7.2.1.7.{}".format(aPortNum),
-                           "1.3.6.1.2.1.10.7.2.1.8.{}".format(aPortNum),
-                           "1.3.6.1.2.1.10.7.2.1.9.{}".format(aPortNum),
-                           "1.3.6.1.2.1.10.7.2.1.10.{}".format(aPortNum),
-                           "1.3.6.1.2.1.10.7.2.1.11.{}".format(aPortNum),
-                           "1.3.6.1.2.1.10.7.2.1.13.{}".format(aPortNum),
-                           "1.3.6.1.2.1.10.7.2.1.16.{}".format(aPortNum),
-                           "1.3.6.1.2.1.10.7.2.1.18.{}".format(aPortNum)]
+        self.aPortNum = pPortNum
+        self.aListeOIDs = ["1.3.6.1.2.1.10.7.2.1.2.{}".format(self.aPortNum),
+                           "1.3.6.1.2.1.10.7.2.1.3.{}".format(self.aPortNum),
+                           "1.3.6.1.2.1.10.7.2.1.4.{}".format(self.aPortNum),
+                           "1.3.6.1.2.1.10.7.2.1.5.{}".format(self.aPortNum),
+                           "1.3.6.1.2.1.10.7.2.1.6.{}".format(self.aPortNum),
+                           "1.3.6.1.2.1.10.7.2.1.7.{}".format(self.aPortNum),
+                           "1.3.6.1.2.1.10.7.2.1.8.{}".format(self.aPortNum),
+                           "1.3.6.1.2.1.10.7.2.1.9.{}".format(self.aPortNum),
+                           "1.3.6.1.2.1.10.7.2.1.10.{}".format(self.aPortNum),
+                           "1.3.6.1.2.1.10.7.2.1.11.{}".format(self.aPortNum),
+                           "1.3.6.1.2.1.10.7.2.1.13.{}".format(self.aPortNum),
+                           "1.3.6.1.2.1.10.7.2.1.16.{}".format(self.aPortNum),
+                           "1.3.6.1.2.1.10.7.2.1.18.{}".format(self.aPortNum)]
         self.aCollectes = {}
 
 class oErrCollecte:
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     vIP = "192.168.254.150"
     vCommunaute = "arwlab"
     vInventaire.mAjoutSwitch(vIP, vCommunaute)
-    vSwitchCourant = len(vInventaire.aListe)
+    vSwitchCourant = len(vInventaire.aListe) - 1
 
     # sauvegarde de l'objet
     ikea = shelve.open("inventaire.shlv")
@@ -80,9 +80,16 @@ if __name__ == "__main__":
         vCompteursErr = ikea["CompteursErreur"]
         ikea.close()
     else:
-        vCompteursErr = oErrEquipement(vSwitchCourant)
+        vCompteursErr = {}
         ikea = shelve.open("CompteursErreur.shlv")
         ikea["CompteursErreur"] = vCompteursErr
         ikea.close()
 
+    vCompteursErr[vSwitchCourant] = oErrEquipement(vSwitchCourant)
     
+    # sauvegarde de l'objet
+    ikea = shelve.open("CompteursErreur.shlv")
+    ikea["CompteursErreur"] = vCompteursErr
+    ikea.close()
+
+
